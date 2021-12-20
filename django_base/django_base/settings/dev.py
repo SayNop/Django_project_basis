@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 定时任务
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -74,14 +77,27 @@ WSGI_APPLICATION = 'django_base.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# mysql 主从
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        # 写（主机）
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': 'mysql123',
+        'NAME': 'test'  # 数据库名字
+    },
+    # 'slave': {
+    # 读（从机）
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': 3307,
+    #     'USER': 'root',
+    #     'PASSWORD': 'mysql',
+    #     'NAME': 'mysql123'
+    # }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
