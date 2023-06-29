@@ -2,9 +2,9 @@
 A self-used django project basis
 
 ## Contents
-- Customer pagination in utils.
-- Customer viewset in utils.
-- Customer exception response format.
+- Custom-pagination response in utils.
+- Custom-viewset response in utils.
+- Custom-exception response format.
 - Time tools in utils.
 - ...
 
