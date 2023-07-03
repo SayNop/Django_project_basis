@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from .response_code import SUCCESS
 
 
 class MyPagination(PageNumberPagination):
@@ -10,7 +11,7 @@ class MyPagination(PageNumberPagination):
     # custom response format
     def get_paginated_response(self, data=None, msg='OK', cont='list'):
         return Response({
-            "code": 0,
+            "code": SUCCESS,
             "success": True,
             "message": msg,
             "data": {

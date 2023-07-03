@@ -1,5 +1,6 @@
 from rest_framework.views import Response
 from rest_framework.views import exception_handler
+from .response_code import FRAMEWORK, PARAMS_INVALID
 
 
 def custom_exception_handler(exc, context):
@@ -16,17 +17,17 @@ def custom_exception_handler(exc, context):
                 # put error message in response data
                 if isinstance(value, str):
                     # detail str
-                    data['code'] = 1
+                    data['code'] = FRAMEWORK
                     data['message'] = value
 
                 elif isinstance(value, list):
                     # params parse fail
-                    data['code'] = 2000
+                    data['code'] = PARAMS_INVALID
                     data['message'] = key + value[0]
 
                 else:
                     # other situation
-                    data['code'] = 1
+                    data['code'] = FRAMEWORK
                     data['message'] = str(value)
                 # return custom data
                 return Response(data, status=response.status_code, exception=True)
