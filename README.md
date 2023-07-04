@@ -8,6 +8,12 @@ A self-used django project basis
 - Time tools in utils.
 - ...
 
+## Start App
+start app in *apps*
+```bash
+cd Django_project_basis/django_base/django_base/apps && python ../../manage.py startapp <app_name> 
+```
+
 ## Django Environment
 Package list:<br>
 amqp==5.0.1<br>
