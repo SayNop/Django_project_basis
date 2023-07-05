@@ -4,6 +4,7 @@ from rest_framework.views import exception_handler
 from .response_code import FRAMEWORK, PARAMS_INVALID
 
 
+# exception response pass into Renderer, can change data format again in Renderer class
 def custom_exception_handler(exc, context):
     # get standard exception obj
     response = exception_handler(exc, context)

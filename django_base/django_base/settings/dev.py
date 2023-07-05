@@ -142,6 +142,12 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'utils.exception.custom_exception_handler',
 
+    'DEFAULT_RENDERER_CLASSES': (
+        'utils.output.CustomRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     #     'rest_framework.authentication.SessionAuthentication',
