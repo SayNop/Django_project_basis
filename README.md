@@ -14,6 +14,9 @@ start app in *apps*
 cd Django_project_basis/django_base/django_base/apps && python ../../manage.py startapp <app_name> 
 ```
 
+## system language
+Change system message language in *django_base.settings.dev.py* **LANGUAGE_CODE**
+
 ## Django Environment
 Package list:<br>
 amqp==5.0.1<br>
