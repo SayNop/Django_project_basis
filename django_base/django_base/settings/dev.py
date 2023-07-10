@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,3 +159,21 @@ REST_FRAMEWORK = {
 
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+
+# jwt settings
+# default settings in 'rest_framework_jwt.settings'
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=3),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=3),
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
+
+
+# custom auth backend
+# AUTHENTICATION_BACKENDS = [
+#     'utils.backend.UsernameMobileAuthBackend',
+#     # 'django.contrib.auth.backends.ModelBackend'
+#
+# ]
