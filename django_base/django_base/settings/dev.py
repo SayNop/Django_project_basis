@@ -31,6 +31,10 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 
+# custom user models
+AUTH_USER_MODEL = 'user.User'
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -172,8 +176,8 @@ JWT_AUTH = {
 
 
 # custom auth backend
-# AUTHENTICATION_BACKENDS = [
-#     'utils.backend.UsernameMobileAuthBackend',
-#     # 'django.contrib.auth.backends.ModelBackend'
-#
-# ]
+AUTHENTICATION_BACKENDS = [
+    'utils.backend.UsernameMobileAuthBackend',
+    # 'django.contrib.auth.backends.ModelBackend'
+
+]
