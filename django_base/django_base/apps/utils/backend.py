@@ -1,6 +1,8 @@
 from django_redis import get_redis_connection
 from django.contrib.auth.backends import ModelBackend
 
+from user.models import User
+
 
 class UsernameMobileAuthBackend(ModelBackend):
     """custom auth backend"""

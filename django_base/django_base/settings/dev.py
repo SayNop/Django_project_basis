@@ -47,6 +47,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+    # app
+    'user',
+
     # 'django_crontab',
 ]
 
