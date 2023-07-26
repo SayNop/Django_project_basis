@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import get_object_or_404
 
-from .response import my_response
+from .response import success_response
 
 
 class CustomModelViewSet(ModelViewSet):
@@ -36,13 +36,13 @@ class CustomModelViewSet(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         # return Response({'status': 0, 'message': '获取列表成功', 'data': serializer.data})
-        return my_response(0, 'get list success', serializer.data)
+        return success_response('get list success', serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         # return Response({'status': 0, 'message': '获取详情成功', 'data': serializer.data})
-        return my_response(0, 'retrieve success', serializer.data)
+        return success_response('retrieve success', serializer.data)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -56,7 +56,7 @@ class CustomModelViewSet(ModelViewSet):
         self.perform_update(serializer)
         self.perform_create(serializer)
         # return Response({'code': 0, 'message': '新增成功', 'data': serializer.data})
-        return my_response(0, 'create success', serializer.data)
+        return success_response('create success', serializer.data)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -69,9 +69,9 @@ class CustomModelViewSet(ModelViewSet):
             instance._prefetched_objects_cache = {}
 
         # return Response({'status': 0, 'message': '修改成功', 'data': serializer.data})
-        return my_response(0, 'update success', serializer.data)
+        return success_response('update success', serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return my_response(0, 'delete success', None)
+        return success_response('delete success', None)
