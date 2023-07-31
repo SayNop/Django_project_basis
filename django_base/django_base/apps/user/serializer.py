@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.Serializer):
         # check user exist
         count = User.objects.filter(phone=value).count()
         if count != 0:
-            raise serializers.ValidationError(response.fail_response(response.DUPLICATE, 'Already Register'))
+            raise serializers.ValidationError(response.response_format(response.DUPLICATE, 'Already Register', {}))
 
         return value
 
@@ -35,7 +35,7 @@ class RegisterSerializer(serializers.Serializer):
             user = User.objects.create_user(username=username, **validated_data)
         except DatabaseError as e:
             print(e)
-            return serializers.ValidationError(response.fail_response(msg='Register fail'))
+            return serializers.ValidationError(response.response_format(response.FRAMEWORK, 'Register fail', {}))
         return user
 
 
@@ -64,15 +64,15 @@ class LoginSerializer(serializers.Serializer):
         elif attrs.get('code'):
             credentials['code'] = attrs.get('code')
         else:
-            raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
-                                                                     'Must include "password" or "code"'))
+            raise serializers.ValidationError(response.response_format(response.PARAMS_INVALID,
+                                                                       'Must include "password" or "code"', {}))
 
         if all(credentials.values()):
             user = authenticate(**credentials)
             if user:
                 if not user.is_active:
-                    raise serializers.ValidationError(response.fail_response(response.PERMISSION_DENIED,
-                                                                             'User account is disabled'))
+                    raise serializers.ValidationError(response.response_format(response.PERMISSION_DENIED,
+                                                                               'User account is disabled', {}))
                 payload = jwt_payload_handler(user)
 
                 return {
@@ -80,8 +80,9 @@ class LoginSerializer(serializers.Serializer):
                     'user': user
                 }
             else:
-                raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
-                                                                         'Unable to log in with provided credentials.'))
+                raise serializers.ValidationError(response.response_format(response.PARAMS_INVALID,
+                                                                           'Unable to log in with provided credentials',
+                                                                           {}))
         else:
-            raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
-                                                                     'Must include "password" or "code"'))
+            raise serializers.ValidationError(response.response_format(response.PARAMS_INVALID,
+                                                                       'Must include "password" or "code"', {}))
