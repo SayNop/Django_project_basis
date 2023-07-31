@@ -8,13 +8,50 @@ A self-used django project basis
 - Time tools in utils.
 - ...
 
+## Start
+- change a new secret key in settings
+```python
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'veswgrsv5y+8xk65++p16_fo7%^%@qbvf_@!c1pk8bcy$4bkcd'
+``` 
+
+- configure your database in settings
+```python
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# mysql master-slave
+DATABASES = {
+    'default': {
+        # if use master-slave: for write (master)
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': 'mysql123',
+        'NAME': 'test'  # database name
+    },
+    # 'slave': {
+    # if use master-slave: for read (slave)
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': 3307,
+    #     'USER': 'root',
+    #     'PASSWORD': 'mysql',
+    #     'NAME': 'mysql123'
+    # }
+}
+```
+ 
+- [change language](#system-language) in settings and change response message in views and serializers
+
+
 ## Start App
 start app in *apps*
 ```bash
 cd Django_project_basis/django_base/django_base/apps && python ../../manage.py startapp <app_name> 
 ```
 
-## system language
+## System language
 Change system message language in *django_base.settings.dev.py* **LANGUAGE_CODE**
 
 ## Django Environment

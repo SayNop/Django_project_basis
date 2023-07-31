@@ -86,19 +86,19 @@ WSGI_APPLICATION = 'django_base.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-# mysql 主从
+# mysql master-slave
 DATABASES = {
     'default': {
-        # 写（主机）
-        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        # if use master-slave: for write (master)
+        'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'USER': 'root',
         'PASSWORD': 'mysql123',
-        'NAME': 'test'  # 数据库名字
+        'NAME': 'test'  # database name
     },
     # 'slave': {
-    # 读（从机）
+    # if use master-slave: for read (slave)
     #     'ENGINE': 'django.db.backends.mysql',
     #     'HOST': '127.0.0.1',
     #     'PORT': 3307,
