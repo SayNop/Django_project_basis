@@ -19,6 +19,6 @@ from django.urls import path, re_path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # app
+    # app router
     re_path(r'api/', include('user.urls')),
 ]

@@ -1,7 +1,6 @@
 import time
 from django.db import DatabaseError
 from django.contrib.auth import authenticate
-from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework_jwt.compat import PasswordField
 from rest_framework_jwt.settings import api_settings
@@ -17,27 +16,26 @@ jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 
 class RegisterSerializer(serializers.Serializer):
-    phone = serializers.RegexField(r'^1[3-9]\d{9}$', required=True, error_messages={'invalid': '手机号格式异常'})
+    phone = serializers.RegexField(r'^1[3-9]\d{9}$', required=True, error_messages={'invalid': 'Phone format error'})
     password = serializers.CharField(required=True)
 
     def validate_phone(self, value):
-        # 验证手机号重复
+        # check user exist
         count = User.objects.filter(phone=value).count()
         if count != 0:
-            raise serializers.ValidationError({'code': response.DUPLICATE, 'message': '手机号已注册', 'data': ''})
+            raise serializers.ValidationError(response.fail_response(response.DUPLICATE, 'Already Register'))
 
         return value
 
     def create(self, validated_data):
-        # 保存数据
-
-        # 拼接username
-        username = "用户" + str(time.time())
+        # save user object
+        # username
+        username = "User" + str(time.time())
         try:
             user = User.objects.create_user(username=username, **validated_data)
         except DatabaseError as e:
             print(e)
-            return serializers.ValidationError({'code': '510', 'message': '注册失败', 'data': ''})
+            return serializers.ValidationError(response.fail_response(msg='Register fail'))
         return user
 
 
@@ -45,13 +43,16 @@ class LoginSerializer(serializers.Serializer):
 
     def __init__(self, *args, **kwargs):
         """
-        Dynamically add the USERNAME_FIELD to self.fields.
+        sms login or password login
+        {'phone': '', 'code': xxxx} or {'phone': '', 'password': xxxx}
         """
         super(LoginSerializer, self).__init__(*args, **kwargs)
 
-        self.fields['phone'] = serializers.RegexField(r'^1[3-9]\d{9}$', required=True, error_messages={'invalid': 'Phone format error'})
+        self.fields['phone'] = serializers.RegexField(r'^1[3-9]\d{9}$', required=True,
+                                                      error_messages={'invalid': 'Phone format error'})
         self.fields['password'] = PasswordField(write_only=True, required=False)
-        self.fields['code'] = serializers.RegexField(r'\d{4}$', required=False, error_messages={'invalid': 'Code format error'})
+        self.fields['code'] = serializers.RegexField(r'\d{4}$', required=False,
+                                                     error_messages={'invalid': 'Code format error'})
 
     def validate(self, attrs):
         credentials = {
@@ -63,16 +64,15 @@ class LoginSerializer(serializers.Serializer):
         elif attrs.get('code'):
             credentials['code'] = attrs.get('code')
         else:
-            msg = _('Must include "password" or "code".')
-            raise serializers.ValidationError(msg)
+            raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
+                                                                     'Must include "password" or "code"'))
 
         if all(credentials.values()):
             user = authenticate(**credentials)
             if user:
                 if not user.is_active:
-                    msg = _('User account is disabled.')
-                    raise serializers.ValidationError(msg)
-
+                    raise serializers.ValidationError(response.fail_response(response.PERMISSION_DENIED,
+                                                                             'User account is disabled'))
                 payload = jwt_payload_handler(user)
 
                 return {
@@ -80,8 +80,8 @@ class LoginSerializer(serializers.Serializer):
                     'user': user
                 }
             else:
-                msg = _('Unable to log in with provided credentials.')
-                raise serializers.ValidationError(msg)
+                raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
+                                                                         'Unable to log in with provided credentials.'))
         else:
-            msg = _('Must include "password" or "code".')
-            raise serializers.ValidationError(msg)
+            raise serializers.ValidationError(response.fail_response(response.PARAMS_INVALID,
+                                                                     'Must include "password" or "code"'))
