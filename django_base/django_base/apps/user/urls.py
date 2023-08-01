@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     url(r'register$', views.RegisterView.as_view()),
+    url(r'login$', views.PhoneLoginView.as_view())
 ]

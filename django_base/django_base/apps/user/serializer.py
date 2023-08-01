@@ -44,7 +44,7 @@ class LoginSerializer(serializers.Serializer):
     def __init__(self, *args, **kwargs):
         """
         sms login or password login
-        {'phone': '', 'code': xxxx} or {'phone': '', 'password': xxxx}
+        {'phone': '', 'code': 'xxxx'} or {'phone': '', 'password': ''}
         """
         super(LoginSerializer, self).__init__(*args, **kwargs)
 
