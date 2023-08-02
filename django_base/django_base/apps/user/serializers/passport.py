@@ -6,7 +6,7 @@ from rest_framework_jwt.compat import PasswordField
 from rest_framework_jwt.settings import api_settings
 
 from utils import response
-from .models import User
+from ..models import User
 
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

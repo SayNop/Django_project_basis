@@ -3,7 +3,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.views import JSONWebTokenAPIView
 
-from .serializer import RegisterSerializer, LoginSerializer
+from ..serializers.passport import RegisterSerializer, LoginSerializer
 from utils import response
 
 

@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from . import views
+from .views import passport
 
 
 urlpatterns = [
-    url(r'register$', views.RegisterView.as_view()),
-    url(r'login$', views.PhoneLoginView.as_view())
+    url(r'register$', passport.RegisterView.as_view()),
+    url(r'login$', passport.PhoneLoginView.as_view())
 ]
